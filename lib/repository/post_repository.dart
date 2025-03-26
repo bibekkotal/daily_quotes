@@ -25,6 +25,7 @@ class PostsRepository {
   Future<void> createPost({
     required String quote,
     String? authorImage,
+    String? authorName,
     String? location,
     required String bgColorCode,
   }) async {
@@ -34,6 +35,7 @@ class PostsRepository {
       authorId: auth.currentUser?.uid ?? '',
       createdAt: DateTime.now(),
       authorImage: authorImage ?? '',
+      authorName: authorName ?? '',
       location: location ?? '',
       bgColorCode: bgColorCode,
     );
@@ -54,6 +56,7 @@ class PostEntity extends Equatable {
   final String authorImage;
   final DateTime createdAt;
   final String location;
+  final String authorName;
 
   const PostEntity({
     required this.id,
@@ -63,6 +66,7 @@ class PostEntity extends Equatable {
     required this.authorImage,
     required this.createdAt,
     required this.location,
+    required this.authorName,
   });
 
   @override
@@ -74,5 +78,6 @@ class PostEntity extends Equatable {
         authorImage,
         createdAt,
         location,
+        authorName,
       ];
 }

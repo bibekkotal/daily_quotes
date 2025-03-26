@@ -9,6 +9,7 @@ class PostModel {
   final String authorImage;
   final DateTime createdAt;
   final String location;
+  final String authorName;
 
   PostModel({
     required this.id,
@@ -18,6 +19,7 @@ class PostModel {
     required this.authorImage,
     required this.createdAt,
     required this.location,
+    required this.authorName,
   });
 
   factory PostModel.fromFireStore(DocumentSnapshot doc) {
@@ -29,6 +31,7 @@ class PostModel {
       bgColorCode: data['bg_color_code'] ?? '#FFFFFF',
       authorId: data['authorId'] ?? '',
       authorImage: data['author_image'] ?? '',
+      authorName: data['author_name'] ?? '',
       createdAt: (data['createdAt'] as Timestamp).toDate(),
       location: data['location'] ?? '',
     );
@@ -41,6 +44,7 @@ class PostModel {
       bgColorCode: bgColorCode,
       authorId: authorId,
       authorImage: authorImage,
+      authorName: authorName,
       createdAt: createdAt,
       location: location,
     );
@@ -52,6 +56,7 @@ class PostModel {
       'bg_color_code': bgColorCode,
       'authorId': authorId,
       'author_image': authorImage,
+      'author_name': authorName,
       'createdAt': createdAt,
       'location': location,
     };

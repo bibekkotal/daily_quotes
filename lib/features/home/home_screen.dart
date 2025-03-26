@@ -1,3 +1,4 @@
+import '../../repository/post_repository.dart';
 import '../../utils/app_exports.dart';
 import '../login/bloc/auth_bloc.dart';
 import '../posts/bloc/post_bloc.dart';
@@ -12,9 +13,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late final PostsRepository postsRepository;
+
   @override
   void initState() {
     super.initState();
+    postsRepository = PostsRepository(
+      fireStore: FirebaseFirestore.instance,
+      auth: FirebaseAuth.instance,
+      storage: FirebaseStorage.instance,
+    );
   }
 
   @override
@@ -29,7 +37,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
-        BlocProvider<PostBloc>(create: (context) => PostBloc()),
+        BlocProvider<PostBloc>(
+            create: (context) => PostBloc(postsRepository: postsRepository)),
       ],
       child: SafeArea(
         child: Scaffold(
@@ -98,7 +107,8 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context) => MultiBlocProvider(
         providers: [
           BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
-          BlocProvider<PostBloc>(create: (context) => PostBloc()),
+          BlocProvider<PostBloc>(
+              create: (context) => PostBloc(postsRepository: postsRepository)),
         ],
         child: Dialog.fullscreen(
           child: Scaffold(

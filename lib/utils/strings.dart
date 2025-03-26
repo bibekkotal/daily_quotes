@@ -35,6 +35,10 @@ class StaticStrings {
   static const String create = 'Create';
   static const String whatsOnYourMind = 'What\'s on your mind?';
   static const String pleaseEnterAQuote = 'Please enter a quote';
+  static const String failedToFetchLocation = "Failed to get location !";
   static const String postSuccessfullyCreated = 'Post created successfully!';
   static const String backgroundColor = 'Background Color:';
+  static const String noInternet = 'No internet !';
+  static const String giveAccessFromSettings =
+      "Give location access from settings!";
 }

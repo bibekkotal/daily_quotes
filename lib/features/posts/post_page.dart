@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import '../../data/posts_data.dart';
+import '../../repository/post_repository.dart';
 import '../../utils/app_exports.dart';
 import 'bloc/post_bloc.dart';
 
@@ -19,7 +20,7 @@ class PostsFeedWidget extends StatelessWidget {
         }
 
         if (state is PostsLoaded) {
-          return StreamBuilder<QuerySnapshot>(
+          return StreamBuilder<List<PostEntity>>(
             stream: state.postsStream,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -32,18 +33,30 @@ class PostsFeedWidget extends StatelessWidget {
                 );
               }
 
-              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+              if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return Center(
                   child: Text(StaticStrings.noPostYet),
                 );
               }
 
               return ListView.builder(
-                itemCount: snapshot.data!.docs.length,
+                physics: const BouncingScrollPhysics(),
+                itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
-                  PostModel post =
-                      PostModel.fromFireStore(snapshot.data!.docs[index]);
-                  return _buildPostCard(context, post);
+                  PostEntity post = snapshot.data![index];
+                  return _buildPostCard(
+                    context,
+                    PostModel(
+                      id: post.id,
+                      quote: post.quote,
+                      bgColorCode: post.bgColorCode,
+                      authorId: post.authorId,
+                      authorImage: post.authorImage,
+                      createdAt: post.createdAt,
+                      location: post.location,
+                      authorName: post.authorName,
+                    ),
+                  );
                 },
               );
             },
@@ -63,7 +76,8 @@ class PostsFeedWidget extends StatelessWidget {
 
   Widget _buildPostCard(BuildContext context, PostModel post) {
     return Card(
-      color: Color(int.parse('0xFF${post.bgColorCode.substring(1)}')),
+      color: Color(int.parse('0xFF${post.bgColorCode.substring(1)}'))
+          .withOpacity(0.80),
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -74,7 +88,7 @@ class PostsFeedWidget extends StatelessWidget {
               post.quote,
               style: TextStyle(
                 color: _getContrastColor(post.bgColorCode),
-                fontSize: 16,
+                fontSize: 20,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -86,15 +100,29 @@ class PostsFeedWidget extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       backgroundImage: NetworkImage(post.authorImage),
-                      radius: 15,
+                      radius: 20,
                     ),
                     const SizedBox(width: 8),
-                    Text(
-                      post.location,
-                      style: TextStyle(
-                        color: _getContrastColor(post.bgColorCode),
-                        fontSize: 12,
-                      ),
+                    Column(
+                      children: [
+                        Text(
+                          post.authorName,
+                          style: TextStyle(
+                            color: _getContrastColor(post.bgColorCode),
+                            fontSize: 12,
+                          ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.sizeOf(context).width / 3,
+                          child: Text(
+                            post.location,
+                            style: TextStyle(
+                              color: _getContrastColor(post.bgColorCode),
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

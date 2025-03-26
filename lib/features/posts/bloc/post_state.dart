@@ -23,10 +23,6 @@ class PostError extends PostState {
 }
 
 class PostsLoaded extends PostState {
-  final Stream<QuerySnapshot> postsStream;
-
+  final Stream<List<PostEntity>> postsStream;
   const PostsLoaded(this.postsStream);
-
-  @override
-  List<Object> get props => [postsStream];
 }
