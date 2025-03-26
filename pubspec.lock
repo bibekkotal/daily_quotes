@@ -600,14 +600,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.2"
-  quotes_provider:
-    dependency: "direct main"
-    description:
-      name: quotes_provider
-      sha256: "2958a489eca126830e2631605744f942f08e89055a15a16b24bbcf10687aecbe"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.2"
   sky_engine:
     dependency: transitive
     description: flutter

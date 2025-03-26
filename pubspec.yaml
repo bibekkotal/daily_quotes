@@ -21,7 +21,6 @@ dependencies:
   firebase_storage: ^12.4.4
   flutter_bloc: ^9.1.0
   equatable: ^2.0.7
-  quotes_provider: ^1.0.2
   dio: ^5.8.0+1
   permission_handler: ^11.3.1
   geocoding: ^3.0.0
