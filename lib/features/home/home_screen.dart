@@ -1,5 +1,8 @@
 import '../../utils/app_exports.dart';
 import '../login/bloc/auth_bloc.dart';
+import '../posts/bloc/post_bloc.dart';
+import '../posts/post_page.dart';
+import '../posts/posts_creation_widgets.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
+        BlocProvider<PostBloc>(create: (context) => PostBloc()),
       ],
       child: SafeArea(
         child: Scaffold(
@@ -71,7 +75,51 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          // body: const TaskListPage(),
+          body: BlocBuilder<AuthBloc, AuthState>(
+            builder: (context, state) {
+              if (state is AuthAuthenticated) {
+                return PostsFeedWidget(user: state.user);
+              }
+              return const SizedBox.shrink();
+            },
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () => _showCreatePostDialog(context),
+            child: const Icon(Icons.add),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showCreatePostDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
+          BlocProvider<PostBloc>(create: (context) => PostBloc()),
+        ],
+        child: Dialog.fullscreen(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(StaticStrings.createPosts,
+                  style: TextStyle(color: AppColors.black)),
+              centerTitle: true,
+              backgroundColor: AppColors.white,
+              elevation: 0,
+              shadowColor: AppColors.white,
+              iconTheme: IconThemeData(color: AppColors.black),
+            ),
+            body: BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                if (state is AuthAuthenticated) {
+                  return CreatePostWidget(user: state.user);
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+          ),
         ),
       ),
     );

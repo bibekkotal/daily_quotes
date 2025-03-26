@@ -17,6 +17,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       emit(PostLoading());
       await _fireStore.collection('posts').add(event.post.toFireStore());
       emit(PostSuccess());
+      add(FetchPostsEvent());
     } catch (e) {
       emit(PostError(e.toString()));
     }
@@ -27,6 +28,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       emit(PostLoading());
       await _fireStore.collection('posts').doc(event.postId).delete();
       emit(PostSuccess());
+      add(FetchPostsEvent());
     } catch (e) {
       emit(PostError(e.toString()));
     }

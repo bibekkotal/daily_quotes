@@ -24,7 +24,17 @@ class StaticStrings {
   static String weakPassword =
       'Password must contain at least one uppercase letter and one number';
 
+  static String noPostYet = 'No posts yet. Be the first to post!';
+  static String initPost = 'Initialize posts';
+
   static const String goodMorning = 'Good morning';
   static const String goodAfternoon = 'Good afternoon';
   static const String goodEvening = 'Good evening';
+  static const String createPosts = 'Create Quotes';
+
+  static const String create = 'Create';
+  static const String whatsOnYourMind = 'What\'s on your mind?';
+  static const String pleaseEnterAQuote = 'Please enter a quote';
+  static const String postSuccessfullyCreated = 'Post created successfully!';
+  static const String backgroundColor = 'Background Color:';
 }
